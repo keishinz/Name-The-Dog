@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, GADBannerViewDelegate {
     
     var imageView: UIImageView!
     var imagePicker: UIImagePickerController!
+    var bannerView: GADBannerView!
 
     override func loadView() {
         
@@ -41,6 +43,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 //        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addPhoto))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(addPhoto))
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "camera"), style: .plain, target: self, action: #selector(useCamera))
+        
+        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+//        addBannerViewToView(bannerView)
+        
+        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+        
+        bannerView.delegate = self
     }
     
     @objc func addPhoto() {
@@ -78,7 +89,62 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func detect(using image: CIImage) {
         
     }
+    
+    func addBannerViewToView(_ bannerView: GADBannerView) {
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bannerView)
+        view.addConstraints([NSLayoutConstraint(item: bannerView,
+                                                attribute: .bottom,
+                                                relatedBy: .equal,
+//                                                  toItem: bottomLayoutGuide,
+                                                toItem: view.safeAreaLayoutGuide,
+//                                              attribute: .top,
+                                                attribute: .bottom,
+                                                multiplier: 1,
+                                                constant: 0),
+                             NSLayoutConstraint(item: bannerView,
+                                                attribute: .centerX,
+                                                relatedBy: .equal,
+                                                toItem: view,
+                                                attribute: .centerX,
+                                                multiplier: 1,
+                                                constant: 0)
+        ])
+     }
 
+    /// Tells the delegate an ad request loaded an ad.
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        addBannerViewToView(bannerView)
+        print("adViewDidReceiveAd")
+    }
+
+    /// Tells the delegate an ad request failed.
+    func adView(_ bannerView: GADBannerView,
+        didFailToReceiveAdWithError error: GADRequestError) {
+      print("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+    }
+
+    /// Tells the delegate that a full-screen view will be presented in response
+    /// to the user clicking on an ad.
+    func adViewWillPresentScreen(_ bannerView: GADBannerView) {
+      print("adViewWillPresentScreen")
+    }
+
+    /// Tells the delegate that the full-screen view will be dismissed.
+    func adViewWillDismissScreen(_ bannerView: GADBannerView) {
+      print("adViewWillDismissScreen")
+    }
+
+    /// Tells the delegate that the full-screen view has been dismissed.
+    func adViewDidDismissScreen(_ bannerView: GADBannerView) {
+      print("adViewDidDismissScreen")
+    }
+
+    /// Tells the delegate that a user click will open another app (such as
+    /// the App Store), backgrounding the current app.
+    func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
+      print("adViewWillLeaveApplication")
+    }
 
 }
 
