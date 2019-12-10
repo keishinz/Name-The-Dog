@@ -13,10 +13,11 @@ import SafariServices
 
 import Alamofire
 import GoogleMobileAds
+import NVActivityIndicatorView
 import SVProgressHUD
 import SwiftyJSON
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, NVActivityIndicatorViewable {
     
     var imageView: UIImageView!
     var imagePicker: UIImagePickerController!
@@ -92,7 +93,10 @@ class ViewController: UIViewController {
     
     func detectImage(using image: CIImage) {
         
-        SVProgressHUD.show()
+//        SVProgressHUD.show()
+//        startAnimating()
+        startAnimating(CGSize(width: 80, height: 80), message: "Analyzing Photo", type: .ballScaleRippleMultiple, displayTimeThreshold: 5)
+//        startAnimating(<#T##size: CGSize?##CGSize?#>, message: <#T##String?#>, messageFont: <#T##UIFont?#>, type: <#T##NVActivityIndicatorType?#>, color: <#T##UIColor?#>, padding: <#T##CGFloat?#>, displayTimeThreshold: <#T##Int?#>, minimumDisplayTime: <#T##Int?#>, backgroundColor: <#T##UIColor?#>, textColor: <#T##UIColor?#>, fadeInAnimation: <#T##FadeInAnimation?##FadeInAnimation?##(UIView) -> Void#>)
         
         guard let mlModel = try? VNCoreMLModel(for: DogIdentifier1().model) else {
             fatalError()
@@ -159,7 +163,9 @@ class ViewController: UIViewController {
     
     func performNavigation(_ pageid: String) {
         
-        SVProgressHUD.dismiss()
+//        SVProgressHUD.dismiss()
+//        loadingAcitivity?.stopAnimating()
+        stopAnimating()
         
         if pageid == "-1" {
             wikiTitle = wikiTitle?.replacingOccurrences(of: " ", with: "%20")

@@ -13,5 +13,6 @@ target 'Name The Dog' do
   pod 'Alamofire'
   pod 'SwiftyJSON'
   pod 'SVProgressHUD', :git => 'https://github.com/SVProgressHUD/SVProgressHUD.git'
+  pod 'NVActivityIndicatorView'
 
 end
