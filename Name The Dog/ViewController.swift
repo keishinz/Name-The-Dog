@@ -6,7 +6,10 @@
 //  Copyright © 2019 Keishin CHOU. All rights reserved.
 //
 
+import CoreML
 import UIKit
+import Vision
+
 import GoogleMobileAds
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, GADBannerViewDelegate {
@@ -73,17 +76,43 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         if let image = info[.editedImage] as? UIImage {
             imageView.image = image
             imageView.contentMode = .scaleAspectFit
-            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneSelectPhoto))
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.2.squarepath"), style: .plain, target: self, action: #selector(addPhoto))
+//            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneSelectPhoto))
+//            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.2.squarepath"), style: .plain, target: self, action: #selector(addPhoto))
+            
+            guard let ciimage = CIImage(image: image) else { return }
+            doneSelectPhoto(using: ciimage)
         }
         
         picker.dismiss(animated: true, completion: nil)
     }
     
-    @objc func doneSelectPhoto() {
+//    @objc func doneSelectPhoto() {
+//
+//        guard let ciimage = CIImage(image: imageView.image!) else { return }
+//        detect(using: ciimage)
+//    }
+    
+    func doneSelectPhoto(using image: CIImage) {
         
-        guard let ciimage = CIImage(image: imageView.image!) else { return }
-        detect(using: ciimage)
+        guard let mlModel = try? VNCoreMLModel(for: DogIdentifier2().model) else {
+            fatalError()
+        }
+        
+        let request = VNCoreMLRequest(model: mlModel) { (request, error) in
+            guard let results = request.results as? [VNClassificationObservation] else { return }
+            if let firstResult = results.first {
+                print(firstResult.identifier)
+                print(firstResult.confidence)
+            }
+        }
+        
+        let handler = VNImageRequestHandler(ciImage: image)
+        do {
+            try handler.perform([request])
+        } catch {
+            print(error)
+        }
+        
     }
     
     func detect(using image: CIImage) {
