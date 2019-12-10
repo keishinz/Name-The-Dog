@@ -13,13 +13,15 @@ import SafariServices
 
 import Alamofire
 import GoogleMobileAds
+import SVProgressHUD
 import SwiftyJSON
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, SFSafariViewControllerDelegate, GADBannerViewDelegate {
+class ViewController: UIViewController {
     
     var imageView: UIImageView!
     var imagePicker: UIImagePickerController!
     var bannerView: GADBannerView!
+    var interstitial: GADInterstitial!
     
     let wikipediaURl = "https://en.wikipedia.org/w/api.php"
     var wikiTitle: String?
@@ -57,8 +59,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
-        
         bannerView.delegate = self
+        
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        interstitial.load(GADRequest())
+        interstitial = createAndLoadInterstitial()
+        interstitial.delegate = self
     }
     
     @objc func addPhoto() {
@@ -75,24 +81,18 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        if let image = info[.editedImage] as? UIImage {
-            imageView.image = image
-            imageView.contentMode = .scaleAspectFit
-            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneSelectPhoto))
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.2.squarepath"), style: .plain, target: self, action: #selector(addPhoto))
-        }
-        
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
     @objc func doneSelectPhoto() {
-        guard let ciimage = CIImage(image: imageView.image!) else { return }
-        detectImage(using: ciimage)
+        //TODO: Show interstitial ad
+        
+        if interstitial.isReady {
+            interstitial.present(fromRootViewController: self)
+        }
+
     }
     
     func detectImage(using image: CIImage) {
+        
+        SVProgressHUD.show()
         
         guard let mlModel = try? VNCoreMLModel(for: DogIdentifier1().model) else {
             fatalError()
@@ -158,7 +158,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func performNavigation(_ pageid: String) {
-        //TODO: Show interstitial ad
+        
+        SVProgressHUD.dismiss()
         
         if pageid == "-1" {
             wikiTitle = wikiTitle?.replacingOccurrences(of: " ", with: "%20")
@@ -218,7 +219,33 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                                                 constant: 0)
         ])
      }
+}
+extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let image = info[.editedImage] as? UIImage {
+            imageView.image = image
+            imageView.contentMode = .scaleAspectFit
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneSelectPhoto))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.2.squarepath"), style: .plain, target: self, action: #selector(addPhoto))
+        }
+        
+        picker.dismiss(animated: true, completion: nil)
+    }
+}
 
+extension ViewController: SFSafariViewControllerDelegate {
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        dismiss(animated: true)
+        
+//        if interstitial.isReady {
+//            interstitial.present(fromRootViewController: self)
+//        }
+        
+    }
+}
+
+extension ViewController: GADBannerViewDelegate {
     /// Tells the delegate an ad request loaded an ad.
     func adViewDidReceiveAd(_ bannerView: GADBannerView) {
         addBannerViewToView(bannerView)
@@ -259,10 +286,51 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
       print("adViewWillLeaveApplication")
     }
-    
-    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        dismiss(animated: true)
+}
+
+extension ViewController: GADInterstitialDelegate {
+    func createAndLoadInterstitial() -> GADInterstitial {
+          let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+          interstitial.delegate = self
+          interstitial.load(GADRequest())
+          return interstitial
     }
 
+    /// Tells the delegate an ad request succeeded.
+    func interstitialDidReceiveAd(_ ad: GADInterstitial) {
+        print("interstitialDidReceiveAd")
+    }
+
+    /// Tells the delegate an ad request failed.
+    func interstitial(_ ad: GADInterstitial, didFailToReceiveAdWithError error: GADRequestError) {
+        print("interstitial:didFailToReceiveAdWithError: \(error.localizedDescription)")
+    }
+
+    /// Tells the delegate that an interstitial will be presented.
+    func interstitialWillPresentScreen(_ ad: GADInterstitial) {
+        print("interstitialWillPresentScreen")
+    }
+
+    /// Tells the delegate the interstitial is to be animated off the screen.
+    func interstitialWillDismissScreen(_ ad: GADInterstitial) {
+        print("interstitialWillDismissScreen")
+    }
+
+    /// Tells the delegate the interstitial had been animated off the screen.
+    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        interstitial = createAndLoadInterstitial()
+        print("interstitialDidDismissScreen")
+        
+        
+        
+        guard let ciimage = CIImage(image: imageView.image!) else { return }
+        detectImage(using: ciimage)
+    }
+
+    /// Tells the delegate that a user click will open another app
+    /// (such as the App Store), backgrounding the current app.
+    func interstitialWillLeaveApplication(_ ad: GADInterstitial) {
+      print("interstitialWillLeaveApplication")
+    }
 }
 

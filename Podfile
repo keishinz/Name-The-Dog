@@ -12,5 +12,6 @@ target 'Name The Dog' do
   pod 'Google-Mobile-Ads-SDK'
   pod 'Alamofire'
   pod 'SwiftyJSON'
+  pod 'SVProgressHUD', :git => 'https://github.com/SVProgressHUD/SVProgressHUD.git'
 
 end

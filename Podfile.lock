@@ -70,6 +70,7 @@ PODS:
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
+  - SVProgressHUD (2.2.6)
   - SwiftyJSON (5.0.0)
 
 DEPENDENCIES:
@@ -77,6 +78,7 @@ DEPENDENCIES:
   - Firebase/AdMob
   - Firebase/Analytics
   - Google-Mobile-Ads-SDK
+  - SVProgressHUD (from `https://github.com/SVProgressHUD/SVProgressHUD.git`)
   - SwiftyJSON
 
 SPEC REPOS:
@@ -96,6 +98,15 @@ SPEC REPOS:
     - nanopb
     - SwiftyJSON
 
+EXTERNAL SOURCES:
+  SVProgressHUD:
+    :git: https://github.com/SVProgressHUD/SVProgressHUD.git
+
+CHECKOUT OPTIONS:
+  SVProgressHUD:
+    :commit: 4fdf3fdc8703fd9915dae33fc1363c604a06b24e
+    :git: https://github.com/SVProgressHUD/SVProgressHUD.git
+
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   Firebase: 458d109512200d1aca2e1b9b6cf7d68a869a4a46
@@ -110,8 +121,9 @@ SPEC CHECKSUMS:
   GoogleDataTransportCCTSupport: ef79a4728b864946a8aafdbab770d5294faf3b5f
   GoogleUtilities: 547a86735c6f0ee30ad17e94df4fc21f616b71cb
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
+  SVProgressHUD: 6ed134667e9ebb2f33679e8273cd48fd3fa349e5
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: c5a18bde3cb48c0aed6500d50ae0f13094477b99
+PODFILE CHECKSUM: da96f3b06c4644ac5820435f4341a503272993df
 
 COCOAPODS: 1.8.3
