@@ -98,7 +98,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                                                 relatedBy: .equal,
 //                                                  toItem: bottomLayoutGuide,
                                                 toItem: view.safeAreaLayoutGuide,
-//                                              attribute: .top,
+//                                                  attribute: .top,
                                                 attribute: .bottom,
                                                 multiplier: 1,
                                                 constant: 0),
@@ -116,6 +116,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func adViewDidReceiveAd(_ bannerView: GADBannerView) {
         addBannerViewToView(bannerView)
         print("adViewDidReceiveAd")
+        
+        let translateTransform = CGAffineTransform(translationX: 0, y: -bannerView.bounds.size.height)
+        bannerView.transform = translateTransform
+
+        UIView.animate(withDuration: 0.5) {
+            bannerView.transform = CGAffineTransform.identity
+        }
     }
 
     /// Tells the delegate an ad request failed.
