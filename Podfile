@@ -10,5 +10,7 @@ target 'Name The Dog' do
   pod 'Firebase/Analytics'
   pod 'Firebase/AdMob'
   pod 'Google-Mobile-Ads-SDK'
+  pod 'Alamofire'
+  pod 'SwiftyJSON'
 
 end
