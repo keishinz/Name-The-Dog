@@ -26,6 +26,8 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
     
     let wikipediaURl = "https://en.wikipedia.org/w/api.php"
     var wikiTitle: String?
+    var imageDocName: String?
+
 
     override func loadView() {
         
@@ -79,11 +81,15 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
     }
     
     @objc func useCamera() {
+        imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        imagePicker.sourceType = .camera
         
+        present(imagePicker, animated: true, completion: nil)
     }
     
     @objc func doneSelectPhoto() {
-        //TODO: Show interstitial ad
         
         if interstitial.isReady {
             interstitial.present(fromRootViewController: self)
@@ -91,6 +97,7 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
 
     }
     
+    //MARK: Detecting CoreML
     func detectImage(using image: CIImage) {
         
 //        SVProgressHUD.show()
@@ -134,6 +141,7 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
         
     }
     
+    //MARK: Querying Wiki
     func getWikiInfomation(url: String, parameters: [String : String]) {
         Alamofire.request(url, method: .get, parameters: parameters).responseJSON {
                     response in
@@ -226,6 +234,8 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
         ])
      }
 }
+
+//MARK: UIImagePickerControllerDelegate, UINavigationControllerDelegate Methods
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
@@ -234,12 +244,22 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
             imageView.contentMode = .scaleAspectFit
             navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneSelectPhoto))
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.2.squarepath"), style: .plain, target: self, action: #selector(addPhoto))
+            
+            //Saving image into document directory
+            let imageName = UUID().uuidString
+            let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
+            imageDocName = imageName
+
+            if let jpegData = image.jpegData(compressionQuality: 0.8) {
+                try? jpegData.write(to: imagePath)
+            }
         }
         
         picker.dismiss(animated: true, completion: nil)
     }
 }
 
+//MARK: SFSafariViewControllerDelegate Methods
 extension ViewController: SFSafariViewControllerDelegate {
     func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
         dismiss(animated: true)
@@ -248,9 +268,13 @@ extension ViewController: SFSafariViewControllerDelegate {
 //            interstitial.present(fromRootViewController: self)
 //        }
         
+        let dog = Dog(name: wikiTitle!, image: imageDocName!)
+        dogs.append(dog)
+        
     }
 }
 
+//MARK: GADBannerViewDelegate Methods
 extension ViewController: GADBannerViewDelegate {
     /// Tells the delegate an ad request loaded an ad.
     func adViewDidReceiveAd(_ bannerView: GADBannerView) {
@@ -294,6 +318,7 @@ extension ViewController: GADBannerViewDelegate {
     }
 }
 
+//MARK: GADInterstitialDelegate Methods
 extension ViewController: GADInterstitialDelegate {
     func createAndLoadInterstitial() -> GADInterstitial {
           let interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
@@ -338,5 +363,10 @@ extension ViewController: GADInterstitialDelegate {
     func interstitialWillLeaveApplication(_ ad: GADInterstitial) {
       print("interstitialWillLeaveApplication")
     }
+}
+
+internal func getDocumentsDirectory() -> URL {
+    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+    return paths[0]
 }
 
