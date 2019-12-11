@@ -13,6 +13,26 @@ internal var dogs = [Dog]()
 
 class HistoryCollectionViewController: UICollectionViewController {
     
+    enum Mode {
+        case view
+        case select
+    }
+
+    var mMode: Mode = .view {
+        didSet {
+            switch mMode {
+            case .view:
+                collectionView.allowsSelection = false
+                collectionView.allowsMultipleSelection = false
+            case .select:
+                collectionView.allowsSelection = true
+                collectionView.allowsMultipleSelection = true
+            }
+        }
+    }
+
+    var dictionaryDidSelect: [IndexPath : Bool] = [:]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -36,6 +56,8 @@ class HistoryCollectionViewController: UICollectionViewController {
             navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editItems))
         }
         
+        collectionView.allowsSelection = false
+        collectionView.allowsMultipleSelection = false
         collectionView.reloadData()
     }
 
@@ -80,6 +102,24 @@ class HistoryCollectionViewController: UICollectionViewController {
     
         return cell
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        print("didSelectItemAt\(indexPath)")
+        dictionaryDidSelect[indexPath] = true
+//        if mMode == .select{
+//            dictionaryDidSelect[indexPath] = true
+//            dictionaryDidSelect[indexPath] = dictionaryDidSelect[indexPath] == true ? false : true
+//        }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+//        if mMode == .select{
+//            dictionaryDidSelect[indexPath] = false
+//        }
+        print("didDeselectItemAt\(indexPath)")
+        dictionaryDidSelect[indexPath] = false
+    }
 
     // MARK: UICollectionViewDelegate
 
@@ -112,8 +152,43 @@ class HistoryCollectionViewController: UICollectionViewController {
     }
     */
     
-    @objc func editItems() {
+    @objc func editItems(_ sender: UIBarButtonItem) {
+//        mMode = mMode == .view ? .select : .view
+        mMode = .select
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelSelect))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteItems))
+
         
+    }
+    
+    @objc func deleteItems(_ sender: UIBarButtonItem) {
+        var willDeleteItemIndexPaths: [IndexPath] = []
+        for (key, value) in dictionaryDidSelect {
+            if value == true {
+                willDeleteItemIndexPaths.append(key)
+            }
+        }
+        print(willDeleteItemIndexPaths)
+        
+        for i in willDeleteItemIndexPaths.sorted(by: {$0.item > $1.item}) {
+            dogs.remove(at: i.item)
+            print(i)
+        }
+        
+        collectionView.deleteItems(at: willDeleteItemIndexPaths)
+        willDeleteItemIndexPaths.removeAll()
+        
+        mMode = .view
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editItems))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "Trash"), style: .done, target: self, action: nil)
+    }
+    
+    @objc func cancelSelect(_ sender: UIBarButtonItem) {
+//        mMode = mMode == .select ? .view : .select
+        mMode = .view
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editItems))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "Trash"), style: .done, target: self, action: nil)
+
     }
 
 }

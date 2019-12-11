@@ -12,5 +12,21 @@ class DogCell: UICollectionViewCell {
     
     @IBOutlet var dogImage: UIImageView!
     @IBOutlet var dogName: UILabel!
+    @IBOutlet var editModeBackground: UIView!
+    @IBOutlet var checkImage: UIImageView!
+    
+    override var isHighlighted: Bool {
+        didSet {
+            editModeBackground.isHidden = !isHighlighted
+            checkImage.isHidden = !isHighlighted
+        }
+    }
+    
+    override var isSelected: Bool {
+        didSet {
+            editModeBackground.isHidden = !isSelected
+            checkImage.isHidden = !isSelected
+        }
+    }
     
 }
