@@ -27,7 +27,7 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
     
     let wikipediaURl = "https://en.wikipedia.org/w/api.php"
     var wikiTitle: String?
-    var imageDocName: String?
+//    var imageDocName: String?
     
     let realm = try! Realm()
     
@@ -86,12 +86,16 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
     }
     
     @objc func useCamera() {
-        imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true
-        imagePicker.sourceType = .camera
-        
-        present(imagePicker, animated: true, completion: nil)
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
+            imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.allowsEditing = true
+            imagePicker.sourceType = .camera
+            
+            present(imagePicker, animated: true, completion: nil)
+        } else {
+            print("Camera is not available.")
+        }
     }
     
     @objc func doneSelectPhoto() {
