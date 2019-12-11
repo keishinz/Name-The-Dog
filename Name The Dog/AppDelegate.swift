@@ -10,6 +10,7 @@ import UIKit
 
 //import Firebase
 import GoogleMobileAds
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +22,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
 //        FirebaseApp.configure()
         GADMobileAds.sharedInstance().start(completionHandler: nil)
+        
+        
+        if let fileURL = Realm.Configuration.defaultConfiguration.fileURL {
+            print(fileURL)
+        }
+        
+        do {
+             let realm = try Realm()
+        } catch {
+            print("Error initialising Realm, \(error.localizedDescription)")
+        }
         
         return true
     }

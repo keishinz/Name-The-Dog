@@ -73,6 +73,11 @@ PODS:
   - NVActivityIndicatorView (4.8.0):
     - NVActivityIndicatorView/Presenter (= 4.8.0)
   - NVActivityIndicatorView/Presenter (4.8.0)
+  - Realm (4.1.1):
+    - Realm/Headers (= 4.1.1)
+  - Realm/Headers (4.1.1)
+  - RealmSwift (4.1.1):
+    - Realm (= 4.1.1)
   - SVProgressHUD (2.2.6)
   - SwiftyJSON (5.0.0)
 
@@ -82,6 +87,7 @@ DEPENDENCIES:
   - Firebase/Analytics
   - Google-Mobile-Ads-SDK
   - NVActivityIndicatorView
+  - RealmSwift
   - SVProgressHUD (from `https://github.com/SVProgressHUD/SVProgressHUD.git`)
   - SwiftyJSON
 
@@ -101,6 +107,8 @@ SPEC REPOS:
     - GoogleUtilities
     - nanopb
     - NVActivityIndicatorView
+    - Realm
+    - RealmSwift
     - SwiftyJSON
 
 EXTERNAL SOURCES:
@@ -127,9 +135,11 @@ SPEC CHECKSUMS:
   GoogleUtilities: 547a86735c6f0ee30ad17e94df4fc21f616b71cb
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
+  Realm: 25f0a8244cbb1c2271c922963ea8666fc2d8104d
+  RealmSwift: 9e2657b33764f80e4a4dffd6d440e24715782052
   SVProgressHUD: 6ed134667e9ebb2f33679e8273cd48fd3fa349e5
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: 98e0251062996630ef0999e425bd43b05986cd97
+PODFILE CHECKSUM: 8bd07f21e1d24534dbc96ca399340d0fb55607dc
 
 COCOAPODS: 1.8.3

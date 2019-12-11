@@ -14,6 +14,7 @@ import SafariServices
 import Alamofire
 import GoogleMobileAds
 import NVActivityIndicatorView
+import RealmSwift
 import SVProgressHUD
 import SwiftyJSON
 
@@ -27,6 +28,10 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
     let wikipediaURl = "https://en.wikipedia.org/w/api.php"
     var wikiTitle: String?
     var imageDocName: String?
+    
+    let realm = try! Realm()
+    
+    var dogs = [Dog]()
 
 
     override func loadView() {
@@ -246,13 +251,13 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.2.squarepath"), style: .plain, target: self, action: #selector(addPhoto))
             
             //Saving image into document directory
-            let imageName = UUID().uuidString
-            let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
-            imageDocName = imageName
-
-            if let jpegData = image.jpegData(compressionQuality: 0.8) {
-                try? jpegData.write(to: imagePath)
-            }
+//            let imageName = UUID().uuidString
+//            let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
+//            imageDocName = imageName
+//
+//            if let jpegData = image.jpegData(compressionQuality: 0.8) {
+//                try? jpegData.write(to: imagePath)
+//            }
         }
         
         picker.dismiss(animated: true, completion: nil)
@@ -268,9 +273,16 @@ extension ViewController: SFSafariViewControllerDelegate {
 //            interstitial.present(fromRootViewController: self)
 //        }
         
-        let dog = Dog(name: wikiTitle!, image: imageDocName!)
+//        let dog = Dog(name: wikiTitle!, image: imageDocName!)
+        
+        let dog = Dog()
+        dog.name = wikiTitle!
+        dog.image = imageView.image?.jpegData(compressionQuality: 0.8)
         dogs.append(dog)
         
+        try! realm.write {
+            realm.add(dog)
+        }
     }
 }
 

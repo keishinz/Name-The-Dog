@@ -8,8 +8,10 @@
 
 import UIKit
 
+import RealmSwift
+
 private let reuseIdentifier = "Dog"
-internal var dogs = [Dog]()
+//internal var dogs = [Dog]()
 
 class HistoryCollectionViewController: UICollectionViewController {
     
@@ -33,6 +35,9 @@ class HistoryCollectionViewController: UICollectionViewController {
 
     var dictionaryDidSelect: [IndexPath : Bool] = [:]
     
+    let realm = try! Realm()
+    var dogs: Results<Dog>!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -43,6 +48,8 @@ class HistoryCollectionViewController: UICollectionViewController {
 //        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         // Do any additional setup after loading the view.
+        
+        dogs = realm.objects(Dog.self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -92,8 +99,10 @@ class HistoryCollectionViewController: UICollectionViewController {
         let dog = dogs[indexPath.item]
         cell.dogName.text = dog.name
         
-        let path = getDocumentsDirectory().appendingPathComponent(dog.image)
-        cell.dogImage.image = UIImage(contentsOfFile: path.path)
+//        let path = getDocumentsDirectory().appendingPathComponent(dog.image)
+//        cell.dogImage.image = UIImage(contentsOfFile: path.path)
+        
+        cell.dogImage.image = UIImage(data: dog.image!)
         
         cell.dogImage.layer.borderColor = UIColor(white: 0, alpha: 0.3).cgColor
         cell.dogImage.layer.borderWidth = 2
@@ -171,8 +180,16 @@ class HistoryCollectionViewController: UICollectionViewController {
         print(willDeleteItemIndexPaths)
         
         for i in willDeleteItemIndexPaths.sorted(by: {$0.item > $1.item}) {
-            dogs.remove(at: i.item)
+//            dogs.remove(at: i.item)
             print(i)
+            
+            do {
+                try realm.write {
+                    realm.delete(dogs[i.item])
+                }
+            } catch {
+                print("Error deleting dog \(error.localizedDescription)")
+            }
         }
         
         collectionView.deleteItems(at: willDeleteItemIndexPaths)

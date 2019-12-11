@@ -14,5 +14,6 @@ target 'Name The Dog' do
   pod 'SwiftyJSON'
   pod 'SVProgressHUD', :git => 'https://github.com/SVProgressHUD/SVProgressHUD.git'
   pod 'NVActivityIndicatorView'
+  pod 'RealmSwift'
 
 end
