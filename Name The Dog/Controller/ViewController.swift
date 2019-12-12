@@ -114,7 +114,7 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
         startAnimating(CGSize(width: 80, height: 80), message: "Analyzing Photo", type: .ballScaleRippleMultiple, displayTimeThreshold: 5)
 //        startAnimating(<#T##size: CGSize?##CGSize?#>, message: <#T##String?#>, messageFont: <#T##UIFont?#>, type: <#T##NVActivityIndicatorType?#>, color: <#T##UIColor?#>, padding: <#T##CGFloat?#>, displayTimeThreshold: <#T##Int?#>, minimumDisplayTime: <#T##Int?#>, backgroundColor: <#T##UIColor?#>, textColor: <#T##UIColor?#>, fadeInAnimation: <#T##FadeInAnimation?##FadeInAnimation?##(UIView) -> Void#>)
         
-        guard let mlModel = try? VNCoreMLModel(for: DogIdentifier1().model) else {
+        guard let mlModel = try? VNCoreMLModel(for: DogIdentifier2().model) else {
             fatalError()
         }
         
@@ -185,10 +185,10 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
         stopAnimating()
         
         if pageid == "-1" {
-            wikiTitle = wikiTitle?.replacingOccurrences(of: " ", with: "%20")
-            print(wikiTitle!)
+//            wikiTitle = wikiTitle?.replacingOccurrences(of: " ", with: "%20")
+//            print(wikiTitle!)
             
-            if let url = URL(string: "https://www.google.com/search?q=\(wikiTitle!)") {
+            if let url = URL(string: "https://www.google.com/search?q=\(wikiTitle!.replacingOccurrences(of: " ", with: "%20"))") {
                 print(url)
                 
                 let config = SFSafariViewController.Configuration()
@@ -202,10 +202,10 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
             }
         } else {
 
-            wikiTitle = wikiTitle?.replacingOccurrences(of: " ", with: "_")
-            print(wikiTitle!)
+//            wikiTitle = wikiTitle?.replacingOccurrences(of: " ", with: "_")
+//            print(wikiTitle!)
             
-            if let url = URL(string: "https://en.wikipedia.org/wiki/\(wikiTitle!)") {
+            if let url = URL(string: "https://en.wikipedia.org/wiki/\(wikiTitle!.replacingOccurrences(of: " ", with: "_"))") {
                 print(url)
                 
                 let config = SFSafariViewController.Configuration()
@@ -251,7 +251,8 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         if let image = info[.editedImage] as? UIImage {
             imageView.image = image
             imageView.contentMode = .scaleAspectFit
-            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneSelectPhoto))
+//            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneSelectPhoto))
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Analyze", style: .plain, target: self, action: #selector(doneSelectPhoto))
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.2.squarepath"), style: .plain, target: self, action: #selector(addPhoto))
             
             //Saving image into document directory

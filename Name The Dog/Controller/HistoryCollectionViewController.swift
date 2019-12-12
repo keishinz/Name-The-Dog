@@ -24,6 +24,14 @@ class HistoryCollectionViewController: UICollectionViewController {
         didSet {
             switch mMode {
             case .view:
+                
+                for (key, value) in dictionaryDidSelect {
+                    if value {
+                        collectionView.deselectItem(at: key, animated: true)
+                    }
+                }
+                dictionaryDidSelect.removeAll()
+                
                 collectionView.allowsSelection = false
                 collectionView.allowsMultipleSelection = false
             case .select:
