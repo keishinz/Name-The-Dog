@@ -12,6 +12,7 @@ import Vision
 import SafariServices
 
 import Alamofire
+import AlamofireImage
 import GoogleMobileAds
 import NVActivityIndicatorView
 import RealmSwift
@@ -32,6 +33,18 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
     let realm = try! Realm()
     
     var dogs = [Dog]()
+    var identifier1: String?
+    var confidence1: Double?
+    var identifier2: String?
+    var confidence2: Double?
+    var identifier3: String?
+    var confidence3: Double?
+    var identifier4: String?
+    var confidence4: Double?
+    var identifier5: String?
+    var confidence5: Double?
+    var dogDescription: String?
+    var wikiImage: UIImage?
 
 
     override func loadView() {
@@ -111,7 +124,7 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
         
 //        SVProgressHUD.show()
 //        startAnimating()
-        startAnimating(CGSize(width: 80, height: 80), message: "Analyzing Photo", type: .ballScaleRippleMultiple, displayTimeThreshold: 5)
+//        startAnimating(CGSize(width: 80, height: 80), message: "Analyzing Photo", type: .ballScaleRippleMultiple, displayTimeThreshold: 5)
 //        startAnimating(<#T##size: CGSize?##CGSize?#>, message: <#T##String?#>, messageFont: <#T##UIFont?#>, type: <#T##NVActivityIndicatorType?#>, color: <#T##UIColor?#>, padding: <#T##CGFloat?#>, displayTimeThreshold: <#T##Int?#>, minimumDisplayTime: <#T##Int?#>, backgroundColor: <#T##UIColor?#>, textColor: <#T##UIColor?#>, fadeInAnimation: <#T##FadeInAnimation?##FadeInAnimation?##(UIView) -> Void#>)
         
         guard let mlModel = try? VNCoreMLModel(for: DogIdentifier2().model) else {
@@ -120,9 +133,23 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
         
         let request = VNCoreMLRequest(model: mlModel) { (request, error) in
             guard let results = request.results as? [VNClassificationObservation] else { return }
+            
+            self.identifier1 = results[0].identifier
+            self.confidence1 = Double(results[0].confidence)
+            self.identifier2 = results[1].identifier
+            self.confidence2 = Double(results[1].confidence)
+            self.identifier3 = results[2].identifier
+            self.confidence3 = Double(results[2].confidence)
+            self.identifier4 = results[3].identifier
+            self.confidence4 = Double(results[3].confidence)
+            self.identifier5 = results[4].identifier
+            self.confidence5 = Double(results[4].confidence)
+
+
+            
             if let firstResult = results.first {
-                print(firstResult.identifier)
-                print(firstResult.confidence)
+//                print(firstResult.identifier)
+//                print(firstResult.confidence)
                 
                 let parameters : [String:String] = [
                     "format": "json",
@@ -160,7 +187,7 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
                         
                         let wikiJSON: JSON = JSON(response.result.value!)
                         let pageid = wikiJSON["query"]["pageids"][0].stringValue
-                        let description = wikiJSON["query"]["pages"][pageid]["extract"]
+                        let description = wikiJSON["query"]["pages"][pageid]["extract"].stringValue
                         let wikiImageURL = wikiJSON["query"]["pages"][pageid]["thumbnail"]["source"].stringValue
                         self.wikiTitle = wikiJSON["query"]["pages"][pageid]["title"].stringValue
                         
@@ -170,7 +197,11 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
                         print(wikiImageURL)
                         print(self.wikiTitle!)
                         
-                        self.performNavigation(pageid)
+                        self.dogDescription = description
+//                        self.wikiImage =
+                        self.grapWikiImage(with: wikiImageURL)
+                        
+//                        self.performNavigation(pageid)
                         
                     } else {
                         print("Error \(String(describing: response.result.error))")
@@ -178,46 +209,92 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
                 }
     }
     
-    func performNavigation(_ pageid: String) {
+    func grapWikiImage(with wikiImageURL: String) {
+        if wikiImageURL == "" {
+            return
+        } else {
+            Alamofire.request(URL(string: wikiImageURL)!).responseImage { response in
+//                debugPrint(response)
+//
+//                print(response.request!)
+//                print(response.response!)
+//                debugPrint(response.result)
+                
+                if let image = response.result.value {
+//                    print("image downloaded: \(image)")
+                    self.wikiImage = image
+//                    self.imageView.image = image
+                }
+            }
+        }
+        
+        performNavigation()
+    }
+    
+    func performNavigation() {
         
 //        SVProgressHUD.dismiss()
 //        loadingAcitivity?.stopAnimating()
+        
+        let dog = Dog()
+        dog.name = identifier1!
+        dog.image = imageView.image?.jpegData(compressionQuality: 0.8)
+        dog.identifier1 = identifier1!
+        dog.confidence1 = confidence1!
+        dog.identifier2 = identifier2!
+        dog.confidence2 = confidence2!
+        dog.identifier3 = identifier3!
+        dog.confidence3 = confidence3!
+        dog.identifier4 = identifier4!
+        dog.confidence4 = confidence4!
+        dog.identifier5 = identifier5!
+        dog.confidence5 = confidence5!
+        dog.dogDescription = dogDescription!
+        dog.wikiImage = wikiImage?.jpegData(compressionQuality: 1)
+        dogs.append(dog)
+        
+        try! realm.write {
+            realm.add(dog)
+        }
+        
         stopAnimating()
         
-        if pageid == "-1" {
-//            wikiTitle = wikiTitle?.replacingOccurrences(of: " ", with: "%20")
-//            print(wikiTitle!)
-            
-            if let url = URL(string: "https://www.google.com/search?q=\(wikiTitle!.replacingOccurrences(of: " ", with: "%20"))") {
-                print(url)
-                
-                let config = SFSafariViewController.Configuration()
-                config.entersReaderIfAvailable = true
-                
-                let vc = SFSafariViewController(url: url, configuration: config)
-                vc.delegate = self
-                present(vc, animated: true, completion: nil)
-            } else {
-                print("Dont exist!")
-            }
-        } else {
-
-//            wikiTitle = wikiTitle?.replacingOccurrences(of: " ", with: "_")
-//            print(wikiTitle!)
-            
-            if let url = URL(string: "https://en.wikipedia.org/wiki/\(wikiTitle!.replacingOccurrences(of: " ", with: "_"))") {
-                print(url)
-                
-                let config = SFSafariViewController.Configuration()
-                config.entersReaderIfAvailable = true
-                
-                let vc = SFSafariViewController(url: url, configuration: config)
-                vc.delegate = self
-                present(vc, animated: true, completion: nil)
-            } else {
-                print("Dont exist!")
-            }
-        }
+        performSegue(withIdentifier: "ShowDetailSegue", sender: nil)
+        
+//        if pageid == "-1" {
+////            wikiTitle = wikiTitle?.replacingOccurrences(of: " ", with: "%20")
+////            print(wikiTitle!)
+//
+//            if let url = URL(string: "https://www.google.com/search?q=\(wikiTitle!.replacingOccurrences(of: " ", with: "%20"))") {
+//                print(url)
+//
+//                let config = SFSafariViewController.Configuration()
+//                config.entersReaderIfAvailable = true
+//
+//                let vc = SFSafariViewController(url: url, configuration: config)
+//                vc.delegate = self
+//                present(vc, animated: true, completion: nil)
+//            } else {
+//                print("Dont exist!")
+//            }
+//        } else {
+//
+////            wikiTitle = wikiTitle?.replacingOccurrences(of: " ", with: "_")
+////            print(wikiTitle!)
+//
+//            if let url = URL(string: "https://en.wikipedia.org/wiki/\(wikiTitle!.replacingOccurrences(of: " ", with: "_"))") {
+//                print(url)
+//
+//                let config = SFSafariViewController.Configuration()
+//                config.entersReaderIfAvailable = true
+//
+//                let vc = SFSafariViewController(url: url, configuration: config)
+//                vc.delegate = self
+//                present(vc, animated: true, completion: nil)
+//            } else {
+//                print("Dont exist!")
+//            }
+//        }
         
     }
     
@@ -270,26 +347,18 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
 }
 
 //MARK: SFSafariViewControllerDelegate Methods
-extension ViewController: SFSafariViewControllerDelegate {
-    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        dismiss(animated: true)
-        
-//        if interstitial.isReady {
-//            interstitial.present(fromRootViewController: self)
-//        }
-        
-//        let dog = Dog(name: wikiTitle!, image: imageDocName!)
-        
-        let dog = Dog()
-        dog.name = wikiTitle!
-        dog.image = imageView.image?.jpegData(compressionQuality: 0.8)
-        dogs.append(dog)
-        
-        try! realm.write {
-            realm.add(dog)
-        }
-    }
-}
+//extension ViewController: SFSafariViewControllerDelegate {
+//    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+//        dismiss(animated: true)
+//
+////        if interstitial.isReady {
+////            interstitial.present(fromRootViewController: self)
+////        }
+//
+////        let dog = Dog(name: wikiTitle!, image: imageDocName!)
+//
+//    }
+//}
 
 //MARK: GADBannerViewDelegate Methods
 extension ViewController: GADBannerViewDelegate {
@@ -369,7 +438,7 @@ extension ViewController: GADInterstitialDelegate {
         interstitial = createAndLoadInterstitial()
         print("interstitialDidDismissScreen")
         
-        
+        startAnimating(CGSize(width: 80, height: 80), message: "Analyzing Photo", type: .ballScaleRippleMultiple, displayTimeThreshold: 5)
         
         guard let ciimage = CIImage(image: imageView.image!) else { return }
         detectImage(using: ciimage)

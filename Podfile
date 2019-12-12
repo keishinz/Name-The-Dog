@@ -15,5 +15,7 @@ target 'Name The Dog' do
   pod 'SVProgressHUD', :git => 'https://github.com/SVProgressHUD/SVProgressHUD.git'
   pod 'NVActivityIndicatorView'
   pod 'RealmSwift'
+  pod 'Charts'
+  pod 'AlamofireImage'
 
 end

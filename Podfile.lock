@@ -1,5 +1,10 @@
 PODS:
   - Alamofire (4.9.1)
+  - AlamofireImage (3.6.0):
+    - Alamofire (~> 4.9)
+  - Charts (3.4.0):
+    - Charts/Core (= 3.4.0)
+  - Charts/Core (3.4.0)
   - Firebase/AdMob (6.13.0):
     - Firebase/CoreOnly
     - Google-Mobile-Ads-SDK (~> 7.50)
@@ -83,6 +88,8 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - AlamofireImage
+  - Charts
   - Firebase/AdMob
   - Firebase/Analytics
   - Google-Mobile-Ads-SDK
@@ -94,6 +101,8 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - AlamofireImage
+    - Charts
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -122,6 +131,8 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  AlamofireImage: be9963c6582d68b39e89191f64c82a7d7bf40fdd
+  Charts: 74c9f256eaf0460c0c416522d1cf8c634ea6b286
   Firebase: 458d109512200d1aca2e1b9b6cf7d68a869a4a46
   FirebaseAnalytics: 45f36d9c429fc91d206283900ab75390cd05ee8a
   FirebaseCore: 307ea2508df730c5865334e41965bd9ea344b0e5
@@ -140,6 +151,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 6ed134667e9ebb2f33679e8273cd48fd3fa349e5
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: 8bd07f21e1d24534dbc96ca399340d0fb55607dc
+PODFILE CHECKSUM: 3076b79e4f6d0e368a0e3416e4232d0e17fe0418
 
 COCOAPODS: 1.8.3

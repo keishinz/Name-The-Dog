@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Lmh-bz-hSA">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Lmh-bz-hSA">
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -19,10 +19,29 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="6U6-iD-D7b"/>
+                    <connections>
+                        <segue destination="n15-vh-Czh" kind="show" identifier="ShowDetailSegue" id="VZY-NK-DT2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2868.115942028986" y="137.94642857142856"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="6Zz-mW-8cC">
+            <objects>
+                <viewController id="n15-vh-Czh" customClass="DetailViewController" customModule="Name_The_Dog" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2RW-no-kJc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="mrm-xk-Tlg"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ezz-aH-feM"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jPj-L1-p9v" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3769.5652173913045" y="137.94642857142856"/>
         </scene>
         <!--History Collection View Controller-->
         <scene sceneID="kVV-sF-7Pt">
@@ -114,7 +133,7 @@
         <scene sceneID="1d1-zf-zci">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1BK-ly-72H" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="featured" id="4Gm-ZS-JYD"/>
+                    <tabBarItem key="tabBarItem" selectedImage="camera.fill" catalog="system" systemItem="featured" id="4Gm-ZS-JYD"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="UBw-ax-5Vk">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -152,6 +171,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="checkIcon" width="512" height="512"/>
+        <image name="camera.fill" catalog="system" width="64" height="48"/>
+        <image name="checkIcon" width="341.33334350585938" height="341.33334350585938"/>
     </resources>
 </document>
