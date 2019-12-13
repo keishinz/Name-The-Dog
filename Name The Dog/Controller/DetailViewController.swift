@@ -18,10 +18,32 @@ class DetailViewController: UIViewController {
     let realm = try! Realm()
     var dogs: Results<Dog>!
     
+    var identifier1 = ""
+    var confidence1 = 0.0
+    var identifier2 = ""
+    var confidence2 = 0.0
+    var identifier3 = ""
+    var confidence3 = 0.0
+    var identifier4 = ""
+    var confidence4 = 0.0
+    var identifier5 = ""
+    var confidence5 = 0.0
+    
+    var dataEntry1 = PieChartDataEntry(value: 0)
+    var dataEntry2 = PieChartDataEntry(value: 0)
+    var dataEntry3 = PieChartDataEntry(value: 0)
+    var dataEntry4 = PieChartDataEntry(value: 0)
+    var dataEntry5 = PieChartDataEntry(value: 0)
+    let otherDataEntry = PieChartDataEntry(value: 0)
+    
+    var dataSet = [PieChartDataEntry]()
+    
+    
+    
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .orange
+//        view.backgroundColor = .lightGray
         return view
     }()
     
@@ -93,15 +115,75 @@ class DetailViewController: UIViewController {
         print(dogs.last?.confidence1)
         print(dogs.last?.wikiImageURL)
         
+        
         if let dog = dogs.last {
+            
+//            identifier1 = dog.identifier1
+//            confidence1 = Double(round(10 * dog.confidence1 ) / 10)
+//            confidence1 = dog.confidence1.rounded(toPlaces: 1)
+//            identifier2 = dog.identifier2
+//            confidence2 = dog.confidence2.rounded(toPlaces: 1)
+//            identifier3 = dog.identifier3
+//            confidence3 = dog.confidence3.rounded(toPlaces: 1)
+//            identifier4 = dog.identifier4
+//            confidence4 = dog.confidence4
+//            identifier5 = dog.identifier5
+//            confidence5 = dog.confidence5
+            
+//            graphView.chartDescription?.text = "The dog's breed seems to be..."
+//            graphView.chartDescription?.textColor = .label
+            dataEntry1.label = dog.identifier1
+            dataEntry1.value = dog.confidence1.rounded(toPlaces: 1.0)
+            dataEntry2.label = dog.identifier2
+            dataEntry2.value = dog.confidence2.rounded(toPlaces: 1.0)
+            dataEntry3.label = dog.identifier3
+            dataEntry3.value = dog.confidence3.rounded(toPlaces: 1.0)
+            dataEntry4.label = dog.identifier4
+            dataEntry4.value = dog.confidence4.rounded(toPlaces: 1.0)
+            dataEntry5.label = dog.identifier5
+            dataEntry5.value = dog.confidence5.rounded(toPlaces: 1.0)
+            
+            
+//            var resultSet: [String : Double] = [dataEntry2.label! : dataEntry2.value]
+//            resultSet[dataEntry3.label!] = dataEntry3.value
+//            resultSet[dataEntry4.label!] = dataEntry4.value
+//            resultSet[dataEntry5.label!] = dataEntry5.value
+            
+            dataSet.append(dataEntry1)
+            
+            let dataPreSet = [dataEntry2, dataEntry3, dataEntry4, dataEntry5]
+            var dataSetConfidence = dataEntry1.value
+            
+            for data in dataPreSet {
+                if data.value > 10 {
+                    dataSet.append(data)
+                    dataSetConfidence += data.value
+                }
+            }
+            
+            otherDataEntry.label = "Other"
+            otherDataEntry.value = 100 - dataSetConfidence
+            dataSet.append(otherDataEntry)
+            
+            let pieChartDataSet = PieChartDataSet(entries: dataSet, label: "")
+            let chartData = PieChartData(dataSet: pieChartDataSet)
+            let chartColors = [UIColor(named: "CustomOrange"), UIColor(named: "CustomBlue"), UIColor(named: "CustomGreen"), UIColor(named: "CustomRed"), UIColor(named: "CustomGrey")]
+            
+            pieChartDataSet.colors = chartColors as! [NSUIColor]
+//            graphView.entryLabelColor = .red
+            chartData.setValueTextColor(.label)
+            
+            graphView.noDataTextColor = .label
+            graphView.legend.textColor = .label
+            graphView.data = chartData
+            
+            
             let url = dog.wikiImageURL
             imageView.sd_setImage(with: URL(string: url), completed: nil)
             
             titleLabel.text = dog.identifier1
             bodyLabel.text = dog.dogDescription
-
         }
-        
         
     }
     
@@ -109,7 +191,7 @@ class DetailViewController: UIViewController {
         scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        scrollView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        scrollView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor).isActive = true
     }
     
     func setContentView() {
@@ -179,4 +261,11 @@ class DetailViewController: UIViewController {
         }
     }
     
+}
+
+extension Double {
+    /// Rounds the double to decimal places value
+    func rounded(toPlaces places: Double) -> Double {
+        return (self * places * 1000).rounded() / 10
+    }
 }
