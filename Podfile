@@ -17,5 +17,7 @@ target 'Name The Dog' do
   pod 'RealmSwift'
   pod 'Charts'
   pod 'AlamofireImage'
+  pod 'TinyConstraints'
+  pod 'SDWebImage'
 
 end

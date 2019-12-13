@@ -24,6 +24,7 @@ class Dog: Object {
     @objc dynamic var identifier5: String = ""
     @objc dynamic var confidence5: Double = 0.0
     @objc dynamic var dogDescription: String = ""
-    @objc dynamic var wikiImage: Data? = nil
+//    @objc dynamic var wikiImage: Data? = nil
+    @objc dynamic var wikiImageURL: String = ""
 
 }

@@ -83,8 +83,12 @@ PODS:
   - Realm/Headers (4.1.1)
   - RealmSwift (4.1.1):
     - Realm (= 4.1.1)
+  - SDWebImage (5.4.0):
+    - SDWebImage/Core (= 5.4.0)
+  - SDWebImage/Core (5.4.0)
   - SVProgressHUD (2.2.6)
   - SwiftyJSON (5.0.0)
+  - TinyConstraints (4.0.1)
 
 DEPENDENCIES:
   - Alamofire
@@ -95,8 +99,10 @@ DEPENDENCIES:
   - Google-Mobile-Ads-SDK
   - NVActivityIndicatorView
   - RealmSwift
+  - SDWebImage
   - SVProgressHUD (from `https://github.com/SVProgressHUD/SVProgressHUD.git`)
   - SwiftyJSON
+  - TinyConstraints
 
 SPEC REPOS:
   trunk:
@@ -118,7 +124,9 @@ SPEC REPOS:
     - NVActivityIndicatorView
     - Realm
     - RealmSwift
+    - SDWebImage
     - SwiftyJSON
+    - TinyConstraints
 
 EXTERNAL SOURCES:
   SVProgressHUD:
@@ -148,9 +156,11 @@ SPEC CHECKSUMS:
   NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
   Realm: 25f0a8244cbb1c2271c922963ea8666fc2d8104d
   RealmSwift: 9e2657b33764f80e4a4dffd6d440e24715782052
+  SDWebImage: 5bf6aec6481ae2a062bdc59f9d6c1d1e552090e0
   SVProgressHUD: 6ed134667e9ebb2f33679e8273cd48fd3fa349e5
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
+  TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
 
-PODFILE CHECKSUM: 3076b79e4f6d0e368a0e3416e4232d0e17fe0418
+PODFILE CHECKSUM: 6d5376215ae7b1851f6f629e9157a83c095d1f19
 
 COCOAPODS: 1.8.3

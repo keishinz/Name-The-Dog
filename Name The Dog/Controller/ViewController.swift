@@ -44,7 +44,8 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
     var identifier5: String?
     var confidence5: Double?
     var dogDescription: String?
-    var wikiImage: UIImage?
+//    var wikiImage: UIImage?
+    var wikiImageURL: String?
 
 
     override func loadView() {
@@ -198,10 +199,11 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
                         print(self.wikiTitle!)
                         
                         self.dogDescription = description
+                        self.wikiImageURL = wikiImageURL
 //                        self.wikiImage =
-                        self.grapWikiImage(with: wikiImageURL)
+//                        self.grapWikiImage(with: wikiImageURL)
                         
-//                        self.performNavigation(pageid)
+                        self.performNavigation()
                         
                     } else {
                         print("Error \(String(describing: response.result.error))")
@@ -209,27 +211,27 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
                 }
     }
     
-    func grapWikiImage(with wikiImageURL: String) {
-        if wikiImageURL == "" {
-            return
-        } else {
-            Alamofire.request(URL(string: wikiImageURL)!).responseImage { response in
-//                debugPrint(response)
+//    func grapWikiImage(with wikiImageURL: String) {
+//        if wikiImageURL == "" {
+//            return
+//        } else {
+//            Alamofire.request(URL(string: wikiImageURL)!).responseImage { response in
+////                debugPrint(response)
+////
+////                print(response.request!)
+////                print(response.response!)
+////                debugPrint(response.result)
 //
-//                print(response.request!)
-//                print(response.response!)
-//                debugPrint(response.result)
-                
-                if let image = response.result.value {
-//                    print("image downloaded: \(image)")
-                    self.wikiImage = image
-//                    self.imageView.image = image
-                }
-            }
-        }
-        
-        performNavigation()
-    }
+//                if let image = response.result.value {
+////                    print("image downloaded: \(image)")
+//                    self.wikiImage = image
+////                    self.imageView.image = image
+//                }
+//            }
+//        }
+//
+//        performNavigation()
+//    }
     
     func performNavigation() {
         
@@ -250,7 +252,8 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
         dog.identifier5 = identifier5!
         dog.confidence5 = confidence5!
         dog.dogDescription = dogDescription!
-        dog.wikiImage = wikiImage?.jpegData(compressionQuality: 1)
+//        dog.wikiImage = wikiImage?.jpegData(compressionQuality: 1)
+        dog.wikiImageURL = wikiImageURL!
         dogs.append(dog)
         
         try! realm.write {
