@@ -78,6 +78,7 @@ PODS:
   - NVActivityIndicatorView (4.8.0):
     - NVActivityIndicatorView/Presenter (= 4.8.0)
   - NVActivityIndicatorView/Presenter (4.8.0)
+  - RAMAnimatedTabBarController (5.1.0)
   - Realm (4.1.1):
     - Realm/Headers (= 4.1.1)
   - Realm/Headers (4.1.1)
@@ -98,6 +99,7 @@ DEPENDENCIES:
   - Firebase/Analytics
   - Google-Mobile-Ads-SDK
   - NVActivityIndicatorView
+  - RAMAnimatedTabBarController
   - RealmSwift
   - SDWebImage
   - SVProgressHUD (from `https://github.com/SVProgressHUD/SVProgressHUD.git`)
@@ -122,6 +124,7 @@ SPEC REPOS:
     - GoogleUtilities
     - nanopb
     - NVActivityIndicatorView
+    - RAMAnimatedTabBarController
     - Realm
     - RealmSwift
     - SDWebImage
@@ -154,6 +157,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 547a86735c6f0ee30ad17e94df4fc21f616b71cb
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
+  RAMAnimatedTabBarController: b5c821298071fded801532216ad8a24394f89859
   Realm: 25f0a8244cbb1c2271c922963ea8666fc2d8104d
   RealmSwift: 9e2657b33764f80e4a4dffd6d440e24715782052
   SDWebImage: 5bf6aec6481ae2a062bdc59f9d6c1d1e552090e0
@@ -161,6 +165,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
 
-PODFILE CHECKSUM: 6d5376215ae7b1851f6f629e9157a83c095d1f19
+PODFILE CHECKSUM: 971793540fc22e65eaef26824205875e6dba884b
 
 COCOAPODS: 1.8.3

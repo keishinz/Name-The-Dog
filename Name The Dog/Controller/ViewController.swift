@@ -71,7 +71,7 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
         
         super.viewDidLoad()
         
-        title = "Name the Dog"
+        navigationItem.title = "Name the Dog"
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(addPhoto))
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "camera"), style: .plain, target: self, action: #selector(useCamera))

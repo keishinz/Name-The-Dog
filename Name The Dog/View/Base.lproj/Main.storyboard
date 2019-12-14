@@ -108,10 +108,10 @@
             </objects>
             <point key="canvasLocation" x="2868.115942028986" y="868.52678571428567"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Animated Tab Bar Controller-->
         <scene sceneID="Hdw-7f-mOH">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Lmh-bz-hSA" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Lmh-bz-hSA" customClass="RAMAnimatedTabBarController" customModule="RAMAnimatedTabBarController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="dRy-Qe-wHh"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="bq8-SX-gYF">
@@ -129,11 +129,15 @@
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="137.94642857142856"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Detect-->
         <scene sceneID="1d1-zf-zci">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1BK-ly-72H" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" selectedImage="camera.fill" catalog="system" systemItem="featured" id="4Gm-ZS-JYD"/>
+                    <tabBarItem key="tabBarItem" title="Detect" image="camera" catalog="system" id="4Gm-ZS-JYD" customClass="RAMAnimatedTabBarItem" customModule="RAMAnimatedTabBarController">
+                        <connections>
+                            <outlet property="animation" destination="Mb1-8L-sHa" id="FKG-e5-tCn"/>
+                        </connections>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="UBw-ax-5Vk">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -146,14 +150,25 @@
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4fU-A2-kr1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <customObject id="Mb1-8L-sHa" customClass="RAMBounceAnimation" customModule="RAMAnimatedTabBarController">
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="duration">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </customObject>
             </objects>
             <point key="canvasLocation" x="1957.9710144927537" y="137.94642857142856"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Library-->
         <scene sceneID="bIf-VE-rrN">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Adc-a1-ZdZ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="history" id="UNv-bC-une"/>
+                    <tabBarItem key="tabBarItem" title="Library" image="book" catalog="system" id="UNv-bC-une" customClass="RAMAnimatedTabBarItem" customModule="RAMAnimatedTabBarController">
+                        <connections>
+                            <outlet property="animation" destination="ZK2-UN-mI2" id="cSz-P4-YEu"/>
+                        </connections>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="XsM-gI-hKj">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -166,12 +181,20 @@
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="clI-ep-Ogb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <customObject id="ZK2-UN-mI2" customClass="RAMBounceAnimation" customModule="RAMAnimatedTabBarController">
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="duration">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </customObject>
             </objects>
             <point key="canvasLocation" x="1957.9710144927537" y="868.52678571428567"/>
         </scene>
     </scenes>
     <resources>
-        <image name="camera.fill" catalog="system" width="64" height="48"/>
+        <image name="book" catalog="system" width="64" height="50"/>
+        <image name="camera" catalog="system" width="64" height="48"/>
         <image name="checkIcon" width="341.33334350585938" height="341.33334350585938"/>
     </resources>
 </document>

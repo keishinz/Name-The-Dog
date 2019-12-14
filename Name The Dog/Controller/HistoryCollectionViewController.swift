@@ -64,9 +64,11 @@ class HistoryCollectionViewController: UICollectionViewController {
         super.viewWillAppear(animated)
         
         if dogs.count == 0 {
-            title = "No photos here"
+//            title = "No photos here"
+            navigationItem.title = "No photos here"
         } else {
-            title = "Dog's photo library"
+//            title = "Dog's photo library"
+            navigationItem.title = "Dog's photo library"
             
             navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editItems))
         }

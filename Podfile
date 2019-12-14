@@ -19,5 +19,6 @@ target 'Name The Dog' do
   pod 'AlamofireImage'
   pod 'TinyConstraints'
   pod 'SDWebImage'
+  pod 'RAMAnimatedTabBarController'
 
 end
