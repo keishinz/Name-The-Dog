@@ -33,7 +33,8 @@ class DogCardViewController: UIViewController {
             confidence = dogs[dogIndex].confidence1.rounded(toPlaces: 1.0)
             dogCard.rating = Int(confidence / 20.0) + 1
             
-            dogCards.append(dogCard)
+//            dogCards.append(dogCard)
+            dogCards.insert(dogCard, at: 0)
         }        
     }
 
@@ -48,8 +49,10 @@ class DogCardViewController: UIViewController {
         
         let cardSlider = CardSliderViewController.with(dataSource: self)
         cardSlider.title = "Dog Library"
-        cardSlider.modalPresentationStyle = .automatic
-        cardSlider.modalTransitionStyle = .coverVertical
+//        cardSlider.modalPresentationStyle = .automatic
+//        cardSlider.modalTransitionStyle = .coverVertical
+        cardSlider.modalPresentationStyle = .currentContext
+        
         present(cardSlider, animated: true, completion: nil)
     }
 
