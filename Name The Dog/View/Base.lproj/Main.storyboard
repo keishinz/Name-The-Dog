@@ -43,6 +43,22 @@
             </objects>
             <point key="canvasLocation" x="3769.5652173913045" y="137.94642857142856"/>
         </scene>
+        <!--Dog Card View Controller-->
+        <scene sceneID="yVM-QC-bgN">
+            <objects>
+                <viewController id="3Rf-xW-N43" customClass="DogCardViewController" customModule="Name_The_Dog" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dnh-Mk-m1D">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="oZe-me-NFf"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="TT0-7g-HFP"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2vA-hD-fVI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2868" y="869"/>
+        </scene>
         <!--History Collection View Controller-->
         <scene sceneID="kVV-sF-7Pt">
             <objects>
@@ -106,7 +122,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NmK-Hv-Pue" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2868.115942028986" y="868.52678571428567"/>
+            <point key="canvasLocation" x="3770" y="869"/>
         </scene>
         <!--Animated Tab Bar Controller-->
         <scene sceneID="Hdw-7f-mOH">
@@ -177,7 +193,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="y2k-in-EUL" kind="relationship" relationship="rootViewController" id="TJ6-aX-ohW"/>
+                        <segue destination="3Rf-xW-N43" kind="relationship" relationship="rootViewController" id="bTb-Jy-eKA"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="clI-ep-Ogb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

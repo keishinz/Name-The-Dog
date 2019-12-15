@@ -20,5 +20,6 @@ target 'Name The Dog' do
   pod 'TinyConstraints'
   pod 'SDWebImage'
   pod 'RAMAnimatedTabBarController'
+  pod 'CardSlider'
 
 end

@@ -2,6 +2,7 @@ PODS:
   - Alamofire (4.9.1)
   - AlamofireImage (3.6.0):
     - Alamofire (~> 4.9)
+  - CardSlider (0.1.0)
   - Charts (3.4.0):
     - Charts/Core (= 3.4.0)
   - Charts/Core (3.4.0)
@@ -94,6 +95,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - AlamofireImage
+  - CardSlider
   - Charts
   - Firebase/AdMob
   - Firebase/Analytics
@@ -110,6 +112,7 @@ SPEC REPOS:
   trunk:
     - Alamofire
     - AlamofireImage
+    - CardSlider
     - Charts
     - Firebase
     - FirebaseAnalytics
@@ -143,6 +146,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   AlamofireImage: be9963c6582d68b39e89191f64c82a7d7bf40fdd
+  CardSlider: 0a8f5f17f5a76701771794b07fdaeddc512358c8
   Charts: 74c9f256eaf0460c0c416522d1cf8c634ea6b286
   Firebase: 458d109512200d1aca2e1b9b6cf7d68a869a4a46
   FirebaseAnalytics: 45f36d9c429fc91d206283900ab75390cd05ee8a
@@ -165,6 +169,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
 
-PODFILE CHECKSUM: 971793540fc22e65eaef26824205875e6dba884b
+PODFILE CHECKSUM: 98e5a21ecc86f80d7518165eb1e265d34434b297
 
 COCOAPODS: 1.8.3
